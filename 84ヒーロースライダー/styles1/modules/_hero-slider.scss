@@ -1,0 +1,99 @@
+.swiper-container { 
+    // width: 100%; 
+    // height: 300px;
+    overflow: visible !important;   //子要素の画像を全体に表示させる
+}
+
+.swiper-slide {
+    height: 500px;
+    overflow:hidden;    //背景画像のアニメーションではみ出た部分を非表示
+
+    & > img {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;    //横方向に100%以上は広がらない
+        object-fit: cover;  //上下左右が親要素と同じ大きさになる
+        transform: scale(1.3);    //背景画像のアニメーションの初期状態
+        transition: transform 1.9s ease;
+    }
+
+    &::after {  //薄い青色の背景色を設定
+        content: '';
+        position: absolute; //要素を重ねて表示 
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 61, 125, 0.1); 
+    }
+
+    &-active {      //表示されている画像にswiper-slide-activeが付与される(背景画像アニメーション)
+        & > img {
+            transform:none; //activeが付与されるとscaleを解除
+        }
+
+        & .hero__title {   //文字アニメーションの変化後の状態
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+.hero {
+    overflow: hidden;
+    padding-top: $navHeight;
+    @extend .pb-lg;
+
+    &__title {
+        position:absolute;  //親要素(swiper-slide)に対して中央ぞろえ(swiper.min.cssにrelativeがついてる)
+        top:50%;
+        left:50%;
+        transform:translate(-50%, calc(-50% + 20px));   //文字アニメーションの初期状態
+        color:$cWhite;
+        font-size: 25px;
+        z-index:2;
+        opacity:0;  //アニメーション前は文字は非表示
+        transition: opacity 0.3s ease 1s, transform 0.3s ease 1s    //1秒後に0.3秒かけてアニメーション
+
+    } 
+
+    &__footer {
+        position:absolute;
+        left:50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        z-index:2;
+        height:68px;    //「scroll」文字列の位置が変わる
+        width:22px;
+        overflow: hidden;   //height:68px; width:22px;から出た要素は非表示
+    }
+
+    &__downarrow{
+        position:absolute;  //親要素(__footer)にposition:static以外が設定されているので使える
+        left:0;             //hero__footerの位置(left:50%;bottom:20px;)の位置に表示される
+        bottom:0;
+        width:6px;
+        @include animation($name: kf-arrow-anime, $iteration-count: infinite, $duration: 2s, $timing-function: linear)
+    }
+
+    &__scrolltext {
+        position: absolute;
+        transform:rotate(90deg);//「scroll」文字列を90度回転
+        color: rgba(255, 255, 255, 0.7);
+        left:-8px;
+        top:11px;
+        font-size:1.2em;
+    }
+}
+
+
+@keyframes kf-arrow-anime {
+    0%,50%,100% {
+        transform: translateY(-10%);
+    }
+    30% {
+        transform: none;
+    }
+    
+
+}

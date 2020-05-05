@@ -1,0 +1,51 @@
+/******************************************************************
+
+Stylesheet: 600px以上のタブレットやモニタで適用
+
+******************************************************************/
+.flex {
+    flex-direction: row;    //要素横並び
+    flex-wrap: wrap;        //折り返しを定義
+}
+
+.houses {
+    &__item {
+        flex-basis: 50%;    //横幅
+        margin-bottom: 60px;
+    }
+}
+.popular {
+    &__container{                       //justify-contentのような統一して取りうる値は親要素に設定
+        justify-content:space-between;  //水平方向の余白を中央に設定
+    }
+    &__item {       
+        flex-basis: 47%;    //横幅
+    }
+}
+
+.travel {
+    &__inner {
+        padding:50px;
+        // margin:50px;
+    }
+    &__texts,
+    &__img {
+        flex-basis: 47%;    //横幅
+    }
+
+    &__texts {
+        display: flex;
+        align-items: flex-end;
+    }
+}
+
+.footer {
+    & .logo {
+        justify-content: flex-start; //ロゴを左寄せ
+    }
+
+    &__li {
+        margin-left: 0;
+        margin-right:30px;
+    }
+}

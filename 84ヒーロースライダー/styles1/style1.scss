@@ -1,0 +1,33 @@
+@import 'modules/variables'; 
+@import 'modules/mixin1';
+@import 'modules/appear';
+@import 'modules/button';
+@import 'modules/hero-slider';
+@import 'modules/text-animation';
+@import 'modules/image-slide';
+@import 'modules/mobile-menu';
+
+@import 'breakpoints1/base';
+
+@media screen and (min-width: 480px) {
+    @import "breakpoints1/480up";
+}
+@media screen and (min-width: 600px) {
+    @import "breakpoints1/600up";
+}
+@media screen and (min-width: 960px) {
+    @import "breakpoints1/960up";
+}
+@media screen and (min-width: 1280px) {
+    @import "breakpoints1/1280up";
+}
+
+@media (min-resolution: 192dpi),
+    (-webkit-mon-deviece-pixel-ratio: 2) {
+        @import "breakpoints1/2x";
+}
+
+@media print {
+    @import "breakpoints1/print";
+}
+

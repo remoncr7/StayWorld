@@ -1,0 +1,391 @@
+/******************************************************************
+
+Stylesheet: ベーススタイル(モバイルのスタイル)
+
+******************************************************************/
+
+body {
+  font-family: "Kameron", "Noto Sans JP", sans-serif; //JPにはローマ字も格納されているのでKameronを先に書かないとKameronが適用されない
+}
+
+img {
+  max-width: 100%;
+  vertical-align: bottom;
+}
+.font-sm {
+  font-size: 14px;
+}
+
+.font-md {
+  font-size: 17px;
+}
+
+.font-lr {
+  font-size: 17px;
+}
+
+.font-lg {
+  font-size: 25px;
+}
+
+.mb-sm {
+  //margin-bottom
+  margin-bottom: 16px !important;
+}
+
+.mb-lg {
+  margin-bottom: 80px !important;
+}
+.pb-sm {
+  padding-bottom: 16px !important;
+}
+
+.pb-lg {
+  padding-bottom: 80px !important;
+}
+
+.content-width {
+  //左右の余白を統一するクラス
+  width: 90%; //基本的に画面の横幅に対して90%で表示
+  margin: 0 auto; //左右中央揃え
+  max-width: $contentMaxWidth; //画面の横幅の上限(画面の横幅が広い時にコンテンツが広がりすぎないようにする)
+}
+.main-title {
+  @extend .font-lg;
+  font-weight: 600;
+  margin-bottom: 0;
+  display:block;
+}
+
+.sub-title {
+  @extend .font-sm;
+  color: $cSubTitle;
+  display:block;
+}
+
+.flex {   //適用したい親の要素にdisplay:flex;
+  display: flex;
+  flex-direction: column; //モバイルの場合は要素を縦並び
+}
+
+.purple {
+  color: $cWineRed;
+}
+
+#main-content {
+  position: relative;
+  z-index:0;
+}
+
+main {
+  position:relative;
+  z-index:-1;
+}
+
+#container {  //ハンバーガーメニュー開いている時のページ
+  background-color: $cWhite;
+  position: relative;
+  z-index: 10;
+  transition: transform 0.5s, box-shadow 0.5s;
+}
+
+.header {
+  position: fixed;  //画面の上部に固定
+  top: 0;           //左上を支点にして
+  left:0;
+  width: 100%;      //横幅100%
+  height: $navHeight;//topの余白の幅とheaderの幅を一致させるための変数
+  background-color: transparent;  //背景透明
+  display: flex;
+  align-items: center;
+  z-index: 100;
+  
+  &.triggered {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 10px 0 25px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  &__nav {
+    display: none;  //モバイル画面ではナビゲーションを表示しない
+  }
+
+  &__nav {
+    @extend .flex;
+    justify-content: space-between;
+    align-items: center;  //上下中央ぞろえ
+    text-align: center;   //文字列を中央ぞろえ
+  }
+
+  &__ul {
+    display: flex;  //画面サイズによって要素の配置が変わる
+    align-items: center;
+    padding:0;  //デフォルトで当たっている値を初期化
+    margin:0;
+    list-style:none;  //箇条書きの点「・」を消す
+  }
+
+  &__li {
+    margin-left: 20px;
+
+    > a {
+      color: $cBlack;
+      text-decoration: none !important; //アンダーライン消去
+      text-transform: uppercase;        //大文字にする
+    }
+  }
+  & .logo {
+    font-size: 38px;
+    justify-content: center;  //ロゴを中央に表示（親要素にflexboxが適用されている）
+  }
+
+  &__inner {
+    display: flex;
+    justify-content: space-between; //要素を左右に分けて表示
+    align-items: center;            //上下中央ぞろえ
+    @extend .content-width;         //左右に分ける横幅指定
+  }
+}
+
+.travel {
+  @extend .content-width;
+  @extend .mb-lg;
+
+  &__inner {
+    margin:50px 0;
+    @extend .flex;
+    justify-content: space-between; //コンテンツを両端に寄せる
+    padding: 15px;
+    background-color: $cBgGray;
+    position:relative;
+    z-index: 0;
+  }
+
+  &__title {
+    position: relative; //transformの親要素指定
+
+    @include p-base($display:none, $width: 100px, $height: 1px, $top: 50%, $left: -120px){ //画像をさす横棒
+      background-color: $cBlack;
+      transform: translateY(-50%) scaleX(0);  //上下中央ぞろえ
+      transition: transform 0.3s ease 1.6s;   //transformの値を1.6s後に0.3sかけて発火
+      transform-origin:right;   //右側を基準にしてアニメーションする 
+    }
+    
+    
+
+  }
+
+  &__sub {
+    @extend .mb-sm;
+  }
+
+  &__img {
+    height: 300px;
+    @extend .mb-sm;
+    transition: box-shadow 1ms linear 0.8s; //0.8s遅れてスタート
+    
+
+    & > img {
+      object-fit: cover;  //画像は基本的に横幅に合わせて立幅が決まるが、縦幅に合わせるようにする
+      width: 100%;
+      height: 100%;
+      position:relative;
+      z-index:-1;
+    }
+
+    &.inview {
+      box-shadow: inset 0 0 30px $cBlack;   //画像内側の影
+    }
+  }
+
+  &__texts {
+    @extend .pb-sm;
+
+    &.inview {
+      & .travel__title::before {
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
+
+.houses {
+  @extend .content-width; //housesの中で.content-widthのプロパティを継承する
+  @extend .mb-lg;
+
+  &__inner {
+    //適用したい親の要素にdisplay:flex;
+    @extend .flex;
+  }
+
+  &__title {
+    //タイトルのフォントとマージン指定
+    @extend .font-lr;
+    @extend .mb-sm;
+  }
+
+  &__btn {
+    text-align: center;
+    flex-basis: 100%; //ボタンの横幅(ボタンの行は1行使う)
+  }
+}
+
+.popular {
+  &__inner {
+    position: relative;
+    &::before {
+      //背景色
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 90%;
+      background-color: $cBgGray;
+    }
+  }
+
+  &__header {
+    @extend .content-width;
+  }
+  &__container {
+    position: relative; //ポジションが付いていないと、付いている物より後ろに来る
+    z-index: 2;
+    @extend .flex;
+    @extend .content-width;
+    @extend .pb-sm;
+  }
+
+  &__title {
+    //タイトルのフォントとマージン指定
+    @extend .font-md;
+    @extend .mb-sm;
+  }
+  &__btn {
+    text-align: center;
+    flex-basis: 100%; //ボタンの横幅(ボタンの行は1行使う)
+    @extend .mb-lg;
+  }
+
+  &__img {
+    height: 150px;
+    overflow: hidden;
+    margin-bottom: 5px;
+
+    & > img {
+      //popular__imgの中のimgタグに対して
+      object-fit: cover; //画像が圧縮されなくする
+      object-position: center; //トリミングされた画像のどこを見せるか
+      height: 100%; //object-fitとセット
+      width: 100%; //object-fitとセット
+    }
+  }
+}
+
+.logo {
+  font-size: 42px;
+  display: flex;
+
+  &__img {
+    width: 0.7em; //現在表示されるべき大きさとの相対的な大きさ
+  }
+
+  &__world {
+    color: $cWineRed;
+  }
+}
+
+.footer {
+  padding: 60px 0;
+  @extend .content-width;
+
+  &__nav {
+    @extend .flex;
+    justify-content: space-between;
+    align-items: center;  //上下中央ぞろえ
+    text-align: center;   //文字列を中央ぞろえ
+  }
+
+  &__ul {
+    @extend .flex;  //画面サイズによって要素の配置が変わる
+    padding:0;  //デフォルトで当たっている値を初期化
+    margin:0;
+    list-style:none;  //箇条書きの点「・」を消す
+  }
+
+  &__li {
+    padding: 0; 
+    margin: 10px;
+
+    > a {
+      color: $cSubTitle;
+    }
+  }
+  & .logo {
+    font-size: 38px;
+    justify-content: center;  //ロゴを中央に表示（親要素にflexboxが適用されている）
+  }
+}
+
+.side {
+  display: none;              //モバイルでは非表示
+  position: fixed;            //画面の固定位置でスクロールに追随
+  top: 70%;                   //画面の上から70%のところに表示
+  transform: translateY(-50%);//要素の中心点を指定
+  transition : all 0.3s ease-in;
+  
+
+  & .tween-animate-title {
+    color: $cBlack;
+    text-decoration: none !important;
+    margin: 0 40px;
+    vertical-align: middle;  //アイコンと文字列の中心点を揃える(インライン要素に対して中央ぞろえ)
+    letter-spacing:1px;
+  }
+
+  &.left {
+    left: -50px; 
+
+    &.inview{
+      left: 50px;   //画面の左から50pxのところに表示
+    }
+
+    & .side__inner {
+      transform-origin: top left; //回転の支点
+      transform:rotate(-90deg);   //要素回転
+    }
+  }
+  
+  &.right{
+    right:-50px;
+
+    &.inview {
+      right:50px;
+    }
+    & .side__inner {
+      transform-origin: top right;
+      transform:rotate(90deg);
+    }
+  }
+}
+
+.icon {
+  position:relative;
+
+  @include p-base($left: -20px, $top: 50%, $width: 1em, $height: 1em){
+    transform:translateY(-50%); //上下中央ぞろえ
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &.twitter{
+    &::before {
+      background-image: url(../images/twitter.svg);
+    }
+  }
+  &.fb{
+    &::before {
+      background-image: url(../images/facebook.svg);
+    }
+  }
+}

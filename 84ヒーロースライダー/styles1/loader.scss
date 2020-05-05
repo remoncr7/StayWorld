@@ -1,0 +1,75 @@
+@import 'modules/variables';
+@import 'modules/mixin1';
+
+.pace-done #global-container {  //更新が終了すると.pace-doneが付与される
+    transition: opacity 1s; 
+    opacity:1;
+}
+
+
+
+#global-container {
+    opacity:0;  //デフォルトでコンテンツを非表示(画面が更新されている間)
+}
+
+.pace {
+    z-index: 2000;
+    position: fixed;
+    margin: auto;   //中央ぞろえ
+    top: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100px;
+    height: 100px;
+    // overflow: hidden;
+  }
+  
+  .pace .pace-progress {
+    transform: none !important;   //文字列を一定の場所で表示
+    text-align: center;
+  }
+  
+  .pace .pace-progress:after {
+    content: attr(data-progress-text);
+    display: block;
+    font-weight: 100;
+    font-size: 2em;
+    font-family: 'Helvetica Neue', 'Yu Gothic', 'Meiryo','sans-serif';  //フォントのタイプ。　左から優先度が高い
+    color: $cSubTitle;
+  }
+  
+  
+  
+  
+  
+  .pace.pace-inactive {
+    display: none;
+  }
+
+  .pace-progress-inner {
+    width: 40px;
+    height: 40px;
+    background-color: $cWineRed;
+
+    margin: 0 auto;
+    @include animation(
+      $name: sk-rotateplane,
+      $duration: 1.2s,
+      $iteration-count: infinite,
+      $timing-function: ease-in-out
+    );
+  }
+
+  @keyframes sk-rotateplane {
+    0% {
+      transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+      transform: perspective(120px) rotateX(-180deg) rotateY(0deg);
+    }
+    100% {
+      transform: perspective(120px) rotateX(-180deg) rotateY(-180deg);
+    }
+  }
+  
